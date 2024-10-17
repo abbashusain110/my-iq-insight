@@ -1,0 +1,6 @@
+Flask==2.0.3
+Flask-Session==0.4.0
+Flask-Mail==0.9.1
+python-dotenv==0.19.1
+Flask-MySQLdb==1.0.0
+PyYAML==5.4.1
