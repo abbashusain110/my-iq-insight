@@ -5,7 +5,7 @@ from flask_session import Session
 from functools import wraps
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
-from flask_mysqldb import MySQL
+import pymysql
 import yaml
 
 # Load environment variables
@@ -23,13 +23,14 @@ db_yaml_path = os.path.join(dir_path, 'db.yaml')
 with open(db_yaml_path, 'r') as yaml_file:
     db = yaml.safe_load(yaml_file)
 
-app.config['MYSQL_HOST'] = db['mysql_host']
-app.config['MYSQL_USER'] = db['mysql_user']
-app.config['MYSQL_PASSWORD'] = db['mysql_password']
-app.config['MYSQL_DB'] = db['mysql_db']
-
+def get_db_connection():
+    return pymysql.connect(
+        host=db['mysql_host'],
+        user=db['mysql_user'],
+        password=db['mysql_password'],
+        database=db['mysql_db']
+    )
 # Initialize MySQL
-mysql = MySQL(app)
 
 
 # Configure session
@@ -231,16 +232,23 @@ def age():
     if request.method == 'POST':
         age = int(request.form.get("age"))
         email = request.form.get("email")
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
-        mysql.connection.commit()
+        # Create a new database connection
+        connection = get_db_connection()  
+        cur = connection.cursor()
+        cur.execute("INSERT INTO users (email, age) VALUES (%s, %s)", (email, age))
+        # Commit the changes to the database
+        connection.commit()
+        # Close the cursor and connection
         cur.close()
+        connection.close() 
         session["user_age"] = age
         session["user_email"] = email
-        session["correct_answers"] = []  # Initialize list to track correct answers
+        session["correct_answers"] = []  
         session["start_time"] = datetime.now()
-        session["last_question"] = 0  # Initialize last_question
+        session["last_question"] = 0 
+        
         return redirect("/question1")
+    
     return render_template('age.html')
 
 @app.route('/question1', methods=['GET', 'POST'])
@@ -607,20 +615,27 @@ def final_score():
         session["user_age"]
     )
 
-    # Store results in database
-    cur = mysql.connection.cursor()
+    # Store results in the database
+    connection = get_db_connection()  # Call the function to get a new connection
+    cur = connection.cursor()
+    
+    # Execute the SQL command to update the user's IQ and time taken
     cur.execute("UPDATE users SET iq = %s, time_taken = %s WHERE email = %s", (iq, minutes_taken, session["user_email"]))
-    mysql.connection.commit()
+    
+    # Commit the changes to the database
+    connection.commit()
+    
+    # Close the cursor and connection
     cur.close()
+    connection.close()  # Make sure to close the connection
 
     # Clear session data only after displaying the final score
     session.clear()
 
     return render_template('final_score.html',
-                         points=final_points,
-                         iq=iq,
-                         time_taken=minutes_taken)
-
+                           points=final_points,
+                           iq=iq,
+                           time_taken=minutes_taken)
 
 
 if __name__ == "__main__":
