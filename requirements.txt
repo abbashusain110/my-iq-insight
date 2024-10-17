@@ -2,5 +2,5 @@ Flask
 flask-session
 Flask-Mail
 python-dotenv
-flask-mysqldb
+PyMySQL
 PyYAML
