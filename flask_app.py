@@ -59,8 +59,8 @@ def require_test_started(f):
             flash("Please start the test from the beginning")
             return redirect("/")
         return f(*args, **kwargs)
-'''
     return decorated_function
+'''
 def require_previous_question(question_number):
     def decorator(f):
         @wraps(f)
