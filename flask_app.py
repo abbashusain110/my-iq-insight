@@ -60,7 +60,6 @@ def require_test_started(f):
             return redirect("/")
         return f(*args, **kwargs)
     return decorated_function
-'''
 def require_previous_question(question_number):
     def decorator(f):
         @wraps(f)
@@ -79,7 +78,7 @@ def require_previous_question(question_number):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
-
+'''
 # Question difficulty mapping
 question_difficulties = {
     "question1": 3,
