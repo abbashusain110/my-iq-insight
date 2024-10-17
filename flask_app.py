@@ -51,7 +51,7 @@ app.config['MAIL_MAX_EMAILS'] = 10
 mail = Mail(app)
 
 
-
+'''
 def require_test_started(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -60,7 +60,7 @@ def require_test_started(f):
             return redirect("/")
         return f(*args, **kwargs)
     return decorated_function
-
+'''
 def require_previous_question(question_number):
     def decorator(f):
         @wraps(f)
