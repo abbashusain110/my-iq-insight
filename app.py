@@ -594,6 +594,11 @@ def question20():
 
         # Calculate the IQ score and time taken
         end_time = datetime.now()
+
+        # Convert start_time to datetime if it's a string
+        if isinstance(session["start_time"], str):
+            session["start_time"] = datetime.fromisoformat(session["start_time"])
+
         time_taken = (end_time - session["start_time"]).total_seconds() / 60  # Time in minutes
 
         # Store time taken in session for final_score
