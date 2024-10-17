@@ -61,7 +61,7 @@ def require_test_started(f):
         if request.path == '/question1':
             if 'user_age' not in session or 'user_email' not in session:
                 flash("Please provide your age and email to start the test")
-                return redirect("/age")
+                return redirect("/question1")
         else:
             # For all other questions, require start_time to be set
             if 'start_time' not in session:
@@ -70,7 +70,7 @@ def require_test_started(f):
         
         return f(*args, **kwargs)
     return decorated_function
-
+'''
 def require_previous_question(question_number):
     def decorator(f):
         @wraps(f)
@@ -89,7 +89,7 @@ def require_previous_question(question_number):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
-
+'''
 # Question difficulty mapping
 question_difficulties = {
     "question1": 3,
@@ -246,7 +246,7 @@ def age():
         # Check if both age and email are provided
         if not age or not email:
             flash("Please provide both age and email.")
-            return redirect("/age")
+            return redirect("/question1")
         
         # Initialize database connection
         connection = get_db_connection()
