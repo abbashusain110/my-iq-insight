@@ -61,7 +61,7 @@ def require_test_started(f):
         if request.path == '/question1':
             if 'user_age' not in session or 'user_email' not in session:
                 flash("Please provide your age and email to start the test")
-                return redirect("/question1")
+                return redirect("/")
         else:
             # For all other questions, require start_time to be set
             if 'start_time' not in session:
@@ -70,7 +70,7 @@ def require_test_started(f):
         
         return f(*args, **kwargs)
     return decorated_function
-'''
+
 def require_previous_question(question_number):
     def decorator(f):
         @wraps(f)
@@ -89,7 +89,7 @@ def require_previous_question(question_number):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
-'''
+
 # Question difficulty mapping
 question_difficulties = {
     "question1": 3,
@@ -242,32 +242,36 @@ def age():
     if request.method == 'POST':
         age = request.form.get("age")
         email = request.form.get("email")
-        
-        # Check if both age and email are provided
         if not age or not email:
             flash("Please provide both age and email.")
-            return redirect("/question1")
-        
-        # Initialize database connection
+            return redirect("/age")
+
         connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
-        connection.commit()
-        cur.close()
-        connection.close()
+        try:
+            cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
+            connection.commit()
+            # Log successful insertion
+            current_app.logger.info(f"Inserted {email}, {age} into the database.")
+        except Exception as e:
+            current_app.logger.error(f"Error inserting into database: {e}")
+            flash("Database error. Please try again later.")
+            return redirect("/age")
+        finally:
+            cur.close()
+            connection.close()
         
-        # Set session variables
         session['user_age'] = age
         session['user_email'] = email
         session['start_time'] = datetime.now().isoformat()
         session['last_question'] = 0
-        session['correct_answers'] = []  # Initialize the correct answers list
-
-        current_app.logger.info(f"Age route: Setting session - age: {age}, email: {email}")
-
+        
+        current_app.logger.info(f"Session set - age: {age}, email: {email}")
+        
         return redirect('/question1')
     
     return render_template('age.html')
+
 
 @app.route('/question1', methods=['GET', 'POST'])
 @require_test_started
