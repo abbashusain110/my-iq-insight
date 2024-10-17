@@ -4,3 +4,4 @@ Flask-Mail
 python-dotenv
 PyMySQL
 PyYAML
+gunicorn
