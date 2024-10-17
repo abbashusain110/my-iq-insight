@@ -591,40 +591,11 @@ def question20():
 
         # Update last question
         session["last_question"] = 20
-
-        # Calculate the IQ score and time taken
-        end_time = datetime.now()
-
-        # Convert start_time to datetime if it's a string
-        if isinstance(session["start_time"], str):
-            session["start_time"] = datetime.fromisoformat(session["start_time"])
-
-        time_taken = (end_time - session["start_time"]).total_seconds() / 60  # Time in minutes
-
-        # Store time taken in session for final_score
-        session["time_taken"] = time_taken
-
-        # Calculate IQ score
-        correct_answers = session.get("correct_answers", [])
-        base_score, iq_score = calculate_iq(correct_answers, time_taken, session["user_age"])
-
-        # Save the result to the database
-        try:
-            cur = mysql.connection.cursor()
-            cur.execute("UPDATE users SET iq = %s, time_taken = %s WHERE email = %s", (iq_score, time_taken, session["user_email"]))
-            mysql.connection.commit()
-        except Exception as e:
-            flash("There was an error saving your results. Please try again.")
-            app.logger.error(f"Error updating database in question 20: {e}")
-            return redirect("/")
-        finally:
-            cur.close()
-
-        # Redirect to final score without clearing session data
+        
+        # Redirect to final score
         return redirect('/final-score')
 
     return render_template('question20.html')
-
 
 
 @app.route('/final-score')
@@ -634,27 +605,29 @@ def final_score():
         flash("Please complete all questions first")
         return redirect(f"/question{session.get('last_question', 0) + 1}")
 
-    if "time_taken" not in session:
-        flash("Please complete the test first")
-        return redirect("/")
+    # Calculate time taken
+    end_time = datetime.now()
+    if isinstance(session["start_time"], str):
+        session["start_time"] = datetime.fromisoformat(session["start_time"])
+    
+    time_taken = (end_time - session["start_time"]).total_seconds() / 60  # Time in minutes
 
-    minutes_taken = session["time_taken"]
-
+    # Calculate IQ score based on correct answers
     final_points, iq = calculate_iq(
         session.get("correct_answers", []),
-        minutes_taken,
+        time_taken,
         session["user_age"]
     )
 
+    # Save the result to the database
     connection = get_db_connection()
     cur = connection.cursor()
-    cur.execute("UPDATE users SET iq = %s, time_taken = %s WHERE email = %s", (iq, minutes_taken, session["user_email"]))
+    cur.execute("UPDATE users SET iq = %s, time_taken = %s WHERE email = %s", (iq, time_taken, session["user_email"]))
     connection.commit()
     cur.close()
     connection.close()
 
     session.clear()
-
     return render_template('final_score.html',
                            points=final_points,
                            iq=iq,
