@@ -242,22 +242,29 @@ def age():
     if request.method == 'POST':
         age = request.form.get("age")
         email = request.form.get("email")
+        
+        # Check if both age and email are provided
         if not age or not email:
             flash("Please provide both age and email.")
             return redirect("/age")
+        
+        # Initialize database connection
         connection = get_db_connection()
         cur = connection.cursor()
         cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
         connection.commit()
         cur.close()
         connection.close()
-       session['user_age'] = age
+        
+        # Set session variables
+        session['user_age'] = age
         session['user_email'] = email
         session['start_time'] = datetime.now().isoformat()
         session['last_question'] = 0
-        
+        session['correct_answers'] = []  # Initialize the correct answers list
+
         current_app.logger.info(f"Age route: Setting session - age: {age}, email: {email}")
-        
+
         return redirect('/question1')
     
     return render_template('age.html')
