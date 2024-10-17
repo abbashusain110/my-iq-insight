@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, current_app
 from flask_session import Session
 from functools import wraps
 from flask_mail import Mail, Message
@@ -55,9 +55,19 @@ mail = Mail(app)
 def require_test_started(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if "user_age" not in session or "start_time" not in session:
-            flash("Please start the test from the beginning")
-            return redirect("/question1")
+        current_app.logger.info(f"Session contents: {session}")
+        
+        # Check if we're on the first question
+        if request.path == '/question1':
+            if 'user_age' not in session or 'user_email' not in session:
+                flash("Please provide your age and email to start the test")
+                return redirect("/age")
+        else:
+            # For all other questions, require start_time to be set
+            if 'start_time' not in session:
+                flash("Please start the test from the beginning")
+                return redirect("/")
+        
         return f(*args, **kwargs)
     return decorated_function
 
@@ -230,20 +240,25 @@ def iq_test():
 @app.route('/age', methods=['GET', 'POST'])
 def age():
     if request.method == 'POST':
-        age = int(request.form.get("age"))
+        age = request.form.get("age")
         email = request.form.get("email")
+        if not age or not email:
+            flash("Please provide both age and email.")
+            return redirect("/age")
         connection = get_db_connection()
         cur = connection.cursor()
         cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
         connection.commit()
         cur.close()
         connection.close()
-        session["user_age"] = age
-        session["user_email"] = email
-        session["correct_answers"] = []
-        session["start_time"] = datetime.now()
-        session["last_question"] = 0
-        return redirect("/question1")
+       session['user_age'] = age
+        session['user_email'] = email
+        session['start_time'] = datetime.now().isoformat()
+        session['last_question'] = 0
+        
+        current_app.logger.info(f"Age route: Setting session - age: {age}, email: {email}")
+        
+        return redirect('/question1')
     
     return render_template('age.html')
 
@@ -252,6 +267,10 @@ def age():
 @require_previous_question(1)
 def question1():
     if request.method == "POST":
+        age = session.get('user_age')
+        email = session.get('user_email')
+        
+        current_app.logger.info(f"Question1 route: Session contains - age: {age}, email: {email}")
         user_answer = request.form.get("answer")
         correct_answer = questions_and_answers["question1"]
         if user_answer == correct_answer:
