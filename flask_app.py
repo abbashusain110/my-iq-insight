@@ -231,6 +231,8 @@ def index():
     # Initialize the database table
     if "points" not in session:
         session["points"] = 0
+    if "correct_answers" not in session:
+        session["correct_answers"] = []  # Initialize correct_answers here
     return render_template("index.html")
 
 @app.route("/iq-test")
@@ -251,7 +253,6 @@ def age():
         try:
             cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
             connection.commit()
-            # Log successful insertion
             current_app.logger.info(f"Inserted {email}, {age} into the database.")
         except Exception as e:
             current_app.logger.error(f"Error inserting into database: {e}")
@@ -265,12 +266,13 @@ def age():
         session['user_email'] = email
         session['start_time'] = datetime.now().isoformat()
         session['last_question'] = 0
+        session['correct_answers'] = []  # Ensure this is initialized
         
         current_app.logger.info(f"Session set - age: {age}, email: {email}")
-        
         return redirect('/question1')
     
     return render_template('age.html')
+
 
 
 @app.route('/question1', methods=['GET', 'POST'])
