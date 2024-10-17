@@ -57,7 +57,7 @@ def require_test_started(f):
     def decorated_function(*args, **kwargs):
         if "user_age" not in session or "start_time" not in session:
             flash("Please start the test from the beginning")
-            return redirect("/")
+            return redirect("/question1")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -232,14 +232,12 @@ def age():
     if request.method == 'POST':
         age = int(request.form.get("age"))
         email = request.form.get("email")
-        '''
         connection = get_db_connection()
         cur = connection.cursor()
         cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
         connection.commit()
         cur.close()
         connection.close()
-        '''
         session["user_age"] = age
         session["user_email"] = email
         session["correct_answers"] = []
