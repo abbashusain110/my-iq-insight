@@ -25,10 +25,10 @@ with open(db_yaml_path, 'r') as yaml_file:
 
 def get_db_connection():
     return pymysql.connect(
-        host=db['mysql_host'],
-        user=db['mysql_user'],
-        password=db['mysql_password'],
-        database=db['mysql_db']
+        host=os.getenv('DB_HOST'),      # e.g., 'db.yourprovider.com'
+        user=os.getenv('DB_USER'),      # e.g., 'your_username'
+        password=os.getenv('DB_PASSWORD'),  # e.g., 'your_password'
+        db=os.getenv('DB_NAME')          # e.g., 'your_database'
     )
 # Initialize MySQL
 
@@ -232,21 +232,19 @@ def age():
     if request.method == 'POST':
         age = int(request.form.get("age"))
         email = request.form.get("email")
-        # Create a new database connection
-        connection = get_db_connection()  
+        
+        connection = get_db_connection()
         cur = connection.cursor()
-        cur.execute("INSERT INTO users (email, age) VALUES (%s, %s)", (email, age))
-        # Commit the changes to the database
+        cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
         connection.commit()
-        # Close the cursor and connection
         cur.close()
-        connection.close() 
+        connection.close()
+
         session["user_age"] = age
         session["user_email"] = email
-        session["correct_answers"] = []  
+        session["correct_answers"] = []
         session["start_time"] = datetime.now()
-        session["last_question"] = 0 
-        
+        session["last_question"] = 0
         return redirect("/question1")
     
     return render_template('age.html')
@@ -597,7 +595,6 @@ def question20():
 @app.route('/final-score')
 @require_test_started
 def final_score():
-    # Ensure all questions were answered
     if session.get("last_question") != 20:
         flash("Please complete all questions first")
         return redirect(f"/question{session.get('last_question', 0) + 1}")
@@ -608,28 +605,19 @@ def final_score():
 
     minutes_taken = session["time_taken"]
 
-    # Calculate final score using the new system
     final_points, iq = calculate_iq(
         session.get("correct_answers", []),
         minutes_taken,
         session["user_age"]
     )
 
-    # Store results in the database
-    connection = get_db_connection()  # Call the function to get a new connection
+    connection = get_db_connection()
     cur = connection.cursor()
-    
-    # Execute the SQL command to update the user's IQ and time taken
     cur.execute("UPDATE users SET iq = %s, time_taken = %s WHERE email = %s", (iq, minutes_taken, session["user_email"]))
-    
-    # Commit the changes to the database
     connection.commit()
-    
-    # Close the cursor and connection
     cur.close()
-    connection.close()  # Make sure to close the connection
+    connection.close()
 
-    # Clear session data only after displaying the final score
     session.clear()
 
     return render_template('final_score.html',
