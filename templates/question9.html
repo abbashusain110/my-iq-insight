@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Question 9
+{% endblock %}
+
+{% block main %}
+    <div style="margin-top: 50px" class="user-select-none fade-in5s row justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded shadow text-left">
+                <h5 class="text-center mb-4">Tree is to forest as word is to:</h5>
+
+                <form action="/question9" method="POST">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option1" value="Letter" required>
+                        <label class="form-check-label" for="option1">Letter</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option2" value="Paragraph">
+                        <label class="form-check-label" for="option2">Paragraph</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option3" value="Sentence">
+                        <label class="form-check-label" for="option3">Sentence</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option4" value="Story">
+                        <label class="form-check-label" for="option4">Story</label>
+                    </div>
+                    <button style = "border-radius: 20px;margin-top: 30px" type="submit" class="btn btn-info">Next Question</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

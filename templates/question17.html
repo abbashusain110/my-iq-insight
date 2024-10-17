@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block title %}
+    Question 17
+{% endblock %}
+{% block main %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                <div class="bg-light p-4 rounded shadow">
+                    <div class="question-image-container mb-4">
+                        <img src="/static/question17.jpg" alt="Question 17" class="img-fluid">
+                    </div>
+                    <form action="/question17" method="POST">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="answer" id="option1" value="A" required>
+                            <label class="form-check-label" for="option1">A</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="answer" id="option2" value="B">
+                            <label class="form-check-label" for="option2">B</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="answer" id="option3" value="C">
+                            <label class="form-check-label" for="option3">C</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="answer" id="option4" value="D">
+                            <label class="form-check-label" for="option4">D</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="answer" id="option5" value="E">
+                            <label class="form-check-label" for="option5">E</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="answer" id="option6" value="F">
+                            <label class="form-check-label" for="option6">F</label>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-info btn-lg rounded-pill">Next Question</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

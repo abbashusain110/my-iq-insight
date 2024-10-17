@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Results{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            max-width: 90%;
+            width: 300px;
+        }
+        #loading, #result {
+            width: 100%;
+        }
+        #canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: green;
+            margin: 10px 0;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: normal;
+            margin: 10px 0;
+        }
+        p {
+            font-size: 14px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Loading Screen -->
+        <div id="loading">
+            <canvas id="canvas"></canvas>
+            <p>Loading your results...</p>
+        </div>
+        <!-- Final Score Section (Initially hidden) -->
+        <div id="result" style="display: none;">
+            <h2>Your IQ is</h2>
+            <h1>{{ iq }}</h1>
+            <p>Your time taken: {{ time_taken if time_taken is not none else "N/A" }} minutes.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { DotLottie } from "https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web/+esm";
+
+        function setCanvasSize() {
+            const canvas = document.getElementById("canvas");
+            const container = document.querySelector('.container');
+            const size = Math.min(container.offsetWidth, 300);
+            canvas.width = size;
+            canvas.height = size;
+        }
+
+        window.onload = function() {
+            setCanvasSize();
+            new DotLottie({
+                autoplay: true,
+                loop: true,
+                canvas: document.getElementById("canvas"),
+                src: "https://lottie.host/bd62f50e-2b3e-43cc-8f87-1a81fe8ae12c/90FlpvVx4A.json"
+            });
+
+            setTimeout(function() {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("result").style.display = "block";
+            }, 10000);
+        };
+
+        window.addEventListener('resize', setCanvasSize);
+    </script>
+</body>
+</html>

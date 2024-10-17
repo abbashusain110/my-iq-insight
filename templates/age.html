@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Free IQ Test
+{% endblock %}
+
+{% block main %}
+    <div class="fade-in10s row justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded shadow">
+                <h2 class="text-center mb-4">Enter Your Details</h2>
+
+                <form action="/age" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div style ="margin-top: 20px" class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" class="form-control" id="age" name="age" required max = "120" min="6">
+                    </div>
+                    <button style = "margin-top: 20px" type="submit" class="btn btn-primary">Start the Test</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateAge() {
+            const ageInput = document.getElementById("age");
+            const ageFeedback = document.getElementById("ageFeedback");
+
+            if (ageInput.value < 6) {
+                ageInput.classList.add("is-invalid");
+                ageFeedback.textContent = "Age must be at least 6 years old.";
+                return false; // Prevent form submission
+            } else {
+                ageInput.classList.remove("is-invalid");
+                ageFeedback.textContent = "";
+                return true; // Allow form submission
+            }
+        }
+    </script>
+{% endblock %}

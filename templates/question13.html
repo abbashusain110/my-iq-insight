@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Question 13
+{% endblock %}
+
+{% block main %}
+    <div style="margin-top: 50px" class="user-select-none fade-in5s row justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded shadow text-left">
+                <h5 class="text-center mb-4">A clock strikes once at 1 o’clock, twice at 2 o’clock, and continues this pattern. How many times does it strike in total over the course of 12 hours?</h5>
+
+                <form action="/question13" method="POST">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option1" value="78 times" required>
+                        <label class="form-check-label" for="option1">78 times</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option2" value="72 times">
+                        <label class="form-check-label" for="option2">72 times</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option3" value="90 times">
+                        <label class="form-check-label" for="option3">90 times</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option4" value="66 times">
+                        <label class="form-check-label" for="option4">66 times</label>
+                    </div>
+                    <button style = "border-radius: 20px;margin-top: 30px" type="submit" class="btn btn-info">Next Question</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

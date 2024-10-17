@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Question 2
+{% endblock %}
+
+{% block main %}
+    <div style="margin-top: 50px" class="user-select-none  fade-in5s row justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded shadow text-left">
+                <h5 class="text-center mb-4">If some cats are dogs, and all dogs are birds, then which of the following must be true?</h5>
+
+                <form action="/question2" method="POST">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option1" value="Some birds are cats" required>
+                        <label class="form-check-label" for="option1">Some birds are cats</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option2" value="All birds are dogs">
+                        <label class="form-check-label" for="option2">All birds are dogs</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option3" value="All cats are birds">
+                        <label class="form-check-label" for="option3">All cats are birds</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option4" value="No dogs are cats">
+                        <label class="form-check-label" for="option4">No dogs are cats</label>
+                    </div>
+                    <button style = "border-radius: 20px;margin-top: 30px" type="submit" class="btn btn-info">Next Question</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

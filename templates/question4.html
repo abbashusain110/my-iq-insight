@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Question 4
+{% endblock %}
+
+{% block main %}
+    <div style="margin-top: 50px" class="user-select-none fade-in5s row justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light p-4 rounded shadow text-left">
+                <h5 class="text-center mb-4">A train leaves station A at 8:00 AM and travels towards station B at 60 km/h. Another train leaves station B at 9:00 AM and travels towards station A at 40 km/h. The distance between the two stations is 300 km. At what time will the two trains meet?</h5>
+
+                <form action="/question4" method="POST">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option1" value="10:30 AM" required>
+                        <label class="form-check-label" for="option1">10:30 AM</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option2" value="11:00 AM">
+                        <label class="form-check-label" for="option2">11:00 AM</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option3" value="11:30 AM">
+                        <label class="form-check-label" for="option3">11:30 AM</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answer" id="option4" value="12:00 AM">
+                        <label class="form-check-label" for="option4">12:00 AM</label>
+                    </div>
+                    <button style = "border-radius: 20px;margin-top: 30px" type="submit" class="btn btn-info">Next Question</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

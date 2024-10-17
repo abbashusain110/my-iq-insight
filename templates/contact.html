@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Contact Us - MY IQ Insight
+{% endblock %}
+
+{% block main %}
+    <div class="fade-in10s popup-card" style="background-color: white; padding: 40px; border-radius: 15px; max-width: 900px; margin: 50px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h1 style="text-align: center;">Contact Us</h1>
+        <p style="text-align: center; font-size: 16px;">We'd love to hear from you! Whether you have questions, feedback, or simply want to get in touch, use the form below or reach out to us via email.</p>
+
+        <!-- Contact Form -->
+        <form action="/submit_contact" method="POST" style="margin-top: 30px;">
+            <!-- Name Field -->
+            <div style="margin-bottom: 20px;">
+                <label for="name" style="font-weight: bold; font-size: 14px;">Name</label>
+                <input type="text" id="name" name="name" required
+                       style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ddd;">
+            </div>
+
+            <!-- Email Field -->
+            <div style="margin-bottom: 20px;">
+                <label for="email" style="font-weight: bold; font-size: 14px;">Email</label>
+                <input type="email" id="email" name="email" required
+                       style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ddd;">
+            </div>
+
+            <!-- Subject Field -->
+            <div style="margin-bottom: 20px;">
+                <label for="subject" style="font-weight: bold; font-size: 14px;">Subject</label>
+                <input type="text" id="subject" name="subject" required
+                       style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ddd;">
+            </div>
+
+            <!-- Message Field -->
+            <div style="margin-bottom: 20px;">
+                <label for="message" style="font-weight: bold; font-size: 14px;">Message</label>
+                <textarea id="message" name="message" rows="5" required
+                          style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ddd;"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="text-align: center;">
+                <button type="submit" style="padding: 10px 30px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                    Send Message
+                </button>
+            </div>
+        </form>
+
+
+        <!-- Contact Information -->
+        <div style="margin-top: 40px; text-align: center;">
+            <p style="font-size: 16px; color: #555;">Or reach us at:</p>
+            <p style="font-size: 16px; color: #555;">Email: <strong>myiqinsight@gmail.com</strong></p>
+        </div>
+    </div>
+{% endblock %}

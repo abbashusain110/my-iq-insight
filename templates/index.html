@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}
+    Free IQ Test
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <header class="centered-div-1">
+            <h1 class="fade-in5s">Test your IQ today and unleash your true potential!</h1>
+        </header>
+        
+        <main>
+            <section class="test-start">
+                <form action="/iq-test" method="GET">
+                    <button class="button_start_test fade-in10s">Start IQ Test</button>
+                </form>
+            </section>
+
+            <section class="centered-div-2">
+                <p class="privacy-notice fade-in10s">By starting the IQ test, you agree to our <a href="/privacy-policy">privacy policy.</a></p>
+            </section>
+
+            <section class="iq-container fade-in10s">
+                <article class="box left">
+                    <h2>What is IQ?</h2>
+                    <p>
+                        IQ, or Intelligence Quotient, is a numerical score derived from standardized tests that measure a person's cognitive abilities. The concept of IQ was first introduced by Alfred Binet in the early 20th century as a way to identify students who needed educational support. Today, IQ tests are used in various fields, from educational assessments to psychological evaluations and even employment screening.
+                    </p>
+                    <p>
+                        These tests typically assess areas such as logical reasoning, problem-solving skills, memory, and analytical thinking. While IQ tests can provide insight into certain cognitive abilities, it is important to remember that intelligence is a complex and multifaceted concept that cannot be fully captured by a single test score.
+                    </p>
+                </article>
+                <article class="box right">
+                    <h2>How is IQ Measured?</h2>
+                    <p>
+                        IQ is measured through a series of standardized tests, which are carefully designed to assess different aspects of cognitive function. The tests may include tasks that measure verbal reasoning, mathematical ability, spatial recognition, memory recall, and more.
+                    </p>
+                    <p>
+                        Most IQ tests are designed to produce a score where the average IQ is set at 100. Scores above or below this average indicate higher or lower cognitive ability compared to the general population. However, scores can be influenced by many factors, including education, environment, and even the test-taker's mental state at the time of the assessment. Therefore, while IQ is a useful tool for understanding cognitive function, it should be viewed as just one piece of the overall intelligence puzzle.
+                    </p>
+                </article>
+            </section>
+        </main>
+    </div>
+{% endblock %}
