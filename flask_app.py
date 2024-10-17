@@ -51,7 +51,7 @@ app.config['MAIL_MAX_EMAILS'] = 10
 mail = Mail(app)
 
 
-'''
+
 def require_test_started(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -60,7 +60,7 @@ def require_test_started(f):
             return redirect("/")
         return f(*args, **kwargs)
     return decorated_function
-'''
+
 def require_previous_question(question_number):
     def decorator(f):
         @wraps(f)
@@ -232,14 +232,14 @@ def age():
     if request.method == 'POST':
         age = int(request.form.get("age"))
         email = request.form.get("email")
-        
+        '''
         connection = get_db_connection()
         cur = connection.cursor()
         cur.execute("INSERT INTO users(email, age) VALUES (%s, %s)", (email, age))
         connection.commit()
         cur.close()
         connection.close()
-
+        '''
         session["user_age"] = age
         session["user_email"] = email
         session["correct_answers"] = []
