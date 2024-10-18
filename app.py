@@ -631,7 +631,7 @@ def final_score():
     return render_template('final_score.html',
                            points=final_points,
                            iq=iq,
-                           time_taken=minutes_taken)
+                           time_taken=time_taken)
 
 
 if __name__ == "__main__":
