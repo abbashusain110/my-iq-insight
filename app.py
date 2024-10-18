@@ -618,7 +618,8 @@ def final_score():
         time_taken,
         session["user_age"]
     )
-
+    
+    time_taken = float(f"{time_taken:.2f}")
     # Save the result to the database
     connection = get_db_connection()
     cur = connection.cursor()
