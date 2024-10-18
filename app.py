@@ -136,6 +136,9 @@ questions_and_answers = {
     "question19": "B",
     "question20": "A"
 }
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory('static', 'ads.txt')
 
 @app.route("/privacy-policy")
 def privacy_policy():
