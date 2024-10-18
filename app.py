@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask, flash, redirect, render_template, request, session, current_app
+from flask import Flask, flash, redirect, render_template, request, session, current_app, send_from_directory
 from flask_session import Session
 from functools import wraps
 from flask_mail import Mail, Message
