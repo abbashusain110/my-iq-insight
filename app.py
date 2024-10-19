@@ -6,22 +6,11 @@ from functools import wraps
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import pymysql
-import yaml
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
-
-# Get the directory of the current file
-dir_path = os.path.dirname(os.path.realpath(__file__))
-
-# Construct the full path to db.yaml
-db_yaml_path = os.path.join(dir_path, 'db.yaml')
-
-# Load database configuration from db.yaml
-with open(db_yaml_path, 'r') as yaml_file:
-    db = yaml.safe_load(yaml_file)
 
 def get_db_connection():
     return pymysql.connect(
@@ -30,8 +19,6 @@ def get_db_connection():
         password=os.getenv('DB_PASSWORD'),  # e.g., 'your_password'
         db=os.getenv('DB_NAME')          # e.g., 'your_database'
     )
-# Initialize MySQL
-
 
 # Configure session
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
@@ -49,7 +36,6 @@ app.config['MAIL_DEFAULT_SENDER'] = 'myiqinsight@gmail.com'
 app.config['MAIL_MAX_EMAILS'] = 10
 
 mail = Mail(app)
-
 
 
 def require_test_started(f):
