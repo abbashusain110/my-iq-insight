@@ -131,7 +131,7 @@ def robots_txt():
 
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory('static', 'ads.txt')
+    return send_from_directory('', 'ads.txt')
 
 @app.route("/privacy-policy")
 def privacy_policy():
