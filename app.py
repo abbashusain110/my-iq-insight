@@ -122,6 +122,13 @@ questions_and_answers = {
     "question19": "B",
     "question20": "A"
 }
+
+
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory('', 'robots.txt')  # Serve from the root directory
+
+
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory('static', 'ads.txt')
